@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Management</title>
+    <link rel="stylesheet" type="text/css" href="css/CreateDesign.css">
+    <link rel="stylesheet" type="text/css" href="css/ShowDesign.css">
+</head>
+<body>
+<div class="container">
+    <div class="two-fifths add-design">
+        <h1>Add Design</h1>
+        <form id="design-form" enctype="multipart/form-data">
+            <label for="subCategoryName">Sub Category Name:</label>
+            <input type="text" id="subCategoryName" name="subCategoryName" oninput="filterOptions()" onclick="showAllOptions()" onfocus="showAllOptions()">
+<!--            <div id="suggestions" class="suggestions"></div>-->
+            <div id="options-list"></div>
+            <label for="designName">Design Name:</label>
+            <input type="text" id="designName" name="designName" required>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+            <label for="creatorName">Creator Name:</label>
+            <input type="text" id="creatorName" name="creatorName" required>
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+            <img id="selectedImage" src="" alt="Selected Image" class="selected-image">
+        </form>
+        <button class="api-button" onclick="createDesign()">Create Design</button>
+    </div>
+
+    <div class="three-fifths get-designs">
+        <h1>Get All Designs</h1>
+        <button class="api-button" style="background-color: #4CAF50;" onclick="getAllDesigns()">Get All Designs</button>
+        <table id="designs-table">
+            <thead>
+            <tr>
+                <th>Design Name</th>
+                <th>Description</th>
+                <th>Creator</th>
+                <th>Image</th> <!-- Add this column header -->
+            </tr>
+            </thead>
+            <tbody id="designs-list"></tbody>
+        </table>
+        <div class="pagination" id="pagination"></div>
+    </div>
+</div>
+<script src="js/ShowDesign.js"></script>
+<script src="js/CreateDesign.js"></script>
+</body>
+</html>

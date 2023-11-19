@@ -1,0 +1,120 @@
+body {
+    background-color: #FFB6C1;
+    /* Light Pink */
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* Vertically align to the top */
+    height: 100vh;
+}
+
+.half {
+    width: 50%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.two-fifths {
+    flex: 2;
+    width: 70%;
+    padding: 10px;
+    box-sizing: border-box;
+    /* Takes up one-third of the width */
+}
+
+.three-fifths {
+    flex: 3;
+    width: 70%;
+    padding: 10px;
+    box-sizing: border-box;
+    /* Takes up two-thirds of the width */
+}
+
+.add-design {
+    background-color: #E6E6FA;
+    /* Lavender */
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.get-designs {
+    background-color: #E6E6FA;
+    /* Lavender */
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.two-fifths input {
+    width: 50%;
+    /* Set input width to half of the container */
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #888;
+    border-radius: 5px;
+}
+
+.selected-image {
+    max-width: 100%;
+    max-height: 200px;
+    /* Set your desired height */
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.api-button {
+    background-color: #4CAF50;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#options-list {
+    display: none;
+    position: absolute;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1;
+    width: 15%;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    left: 19%;
+    transform: translateX(-50%); /* Horizontally center the options list */
+}
+
+#options-list div {
+    padding: 8px;
+    width: 100%;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+
+
+#options-list div:hover {
+    background-color: #ddd;
+}
+
+#options-list div:last-child {
+    border-bottom: none;
+}

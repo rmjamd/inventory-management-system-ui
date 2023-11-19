@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .search-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background-color: #3498db;
+            padding: 20px;
+        }
+
+        .search-container > div {
+            margin: 10px;
+        }
+
+        label {
+            display: block;
+            color: #fff;
+        }
+
+        select, input[type="text"] {
+            padding: 5px;
+        }
+
+        button {
+            background-color: #fff;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border: 1px solid #3498db;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #3498db;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .pagination {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Product Search</h1>
+<div class="search-container">
+    <div>
+        <label for="designName">Design Name:</label>
+        <input type="text" id="designName">
+    </div>
+    <div>
+        <label for="color">Color:</label>
+        <select id="color">
+            <option value="">--Select--</option>
+            <option value="BLUE">Blue</option>
+            <option value="GREEN">Green</option>
+            <option value="YELLOW">Yellow</option>
+            <option value="RED">Red</option>
+        </select>
+    </div>
+    <div>
+        <label for="size">Size:</label>
+        <select id="size">
+            <option value="">--Select--</option>
+            <option value="X">X</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="M">M</option>
+            <option value="XXL">XXL</option>
+        </select>
+    </div>
+    <div>
+        <label for="sortByPrice">Sort by Price:</label>
+        <select id="sortByPrice">
+            <option value="">--Select--</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+    </div>
+    <div>
+        <label for="sortByQuantity">Sort by Quantity:</label>
+        <select id="sortByQuantity">
+            <option value="">--Select--</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+    </div>
+    <div>
+        <button onclick="searchProducts1()">Search</button>
+    </div>
+</div>
+
+<div id="productList"></div>
+
+<div class="pagination" id="pagination">
+    <button id="prevButton" onclick="navigatePage(-1)" disabled>Previous</button>
+    <span id="currentPage">Page 0</span>
+    <button id="nextButton" onclick="navigatePage(1)">Next</button>
+</div>
+
+<script>
+    let currentPage = 0;
+    let totalPage = 0;
+    function searchProducts1(){
+    currentPage = 0;
+    searchProducts()
+    }
+
+    function searchProducts() {
+        const designName = document.getElementById("designName").value;
+        const color = document.getElementById("color").value;
+        const size = document.getElementById("size").value;
+        const sortByPrice = document.getElementById("sortByPrice").value;
+        const sortByQuantity = document.getElementById("sortByQuantity").value;
+
+        // Build the API URL based on user selections
+        let apiUrl = `http://localhost:4040/api/product-lists?`;
+        if (designName) apiUrl += `designName=${designName}&`;
+        if (color) apiUrl += `color=${color}&`;
+        if (size) apiUrl += `productSize=${size}&`;
+        if (sortByPrice) apiUrl += `sortBy=cost_${sortByPrice}&`;
+        if (sortByQuantity) apiUrl += `sortBy=quantity_${sortByQuantity}&`;
+
+        // Add page and size parameters
+        apiUrl += `page=${currentPage}&size=5`;
+
+        // Fetch data from the API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => displayProductList(data.contents,data.totalPages))
+            .catch(error => console.error(error));
+    }
+
+    function navigatePage(delta) {
+        currentPage += delta;
+        searchProducts();
+    }
+
+    function updatePaginationButtons(totalPages) {
+        const prevButton = document.getElementById("prevButton");
+        const nextButton = document.getElementById("nextButton");
+        const currentPageSpan = document.getElementById("currentPage");
+
+        if (currentPage <= 0) {
+            prevButton.disabled = true;
+        } else {
+            prevButton.disabled = false;
+        }
+
+        if (currentPage >= totalPages - 1) {
+            nextButton.disabled = true;
+        } else {
+            nextButton.disabled = false;
+        }
+
+        currentPageSpan.textContent = `Page ${currentPage}`;
+    }
+
+    function displayProductList(products,pages) {
+        totalPage=pages;
+        const productListDiv = document.getElementById("productList");
+        const paginationDiv = document.getElementById("pagination");
+
+        productListDiv.innerHTML = "";
+
+        if (products.length === 0) {
+            productListDiv.textContent = "No products found.";
+            paginationDiv.style.display = "none";
+            return;
+        }
+
+        paginationDiv.style.display = "block";
+
+        const table = document.createElement("table");
+        table.innerHTML = `
+            <tr>
+                <th>Design Name</th>
+                <th>Quantity</th>
+                <th>Cost</th>
+                <th>Size</th>
+            </tr>
+        `;
+
+        products.forEach(product => {
+            const row = table.insertRow();
+            row.insertCell(0).textContent = product.designName;
+            row.insertCell(1).textContent = product.quantity;
+            row.insertCell(2).textContent = product.cost.toFixed(2);
+            row.insertCell(3).textContent = product.size.sizeName;
+        });
+
+        productListDiv.appendChild(table);
+        updatePaginationButtons(pages);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link rel="stylesheet" type="text/css" href="css/AddProduct.css">
+</head>
+<body>
+<div class="container">
+    <h1>Add Products</h1>
+    <form id="product-form">
+        <input type="text" id="designName" placeholder="Design Name" required oninput="filterOptions()" onclick="showAllOptions()" onfocus="showAllOptions()">
+        <div id="options-list"></div>
+        <input type="number" id="quantity" placeholder="Quantity" min="1" required>
+        <input type="number" id="currentCost" placeholder="Cost" step="0.01" min="0.01" required>
+        <select id="sizeName" required>
+            <option value="" disabled selected>Select Size</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+        </select>
+        <select id="color" required>
+            <option value="" disabled selected>Select Color</option>
+            <option value="BLUE">BLUE</option>
+            <option value="RED">RED</option>
+            <option value="YELLOW">YELLOW</option>
+        </select>
+        <button type="button" onclick="addProduct()">Add Product</button>
+    </form>
+    <div id="product-list"></div>
+</div>
+<script src="js/AddProduct.js"></script>
+</body>
+</html>
