@@ -2,6 +2,7 @@ const apiEndpoint = 'http://localhost:4040/api/product-list';
 const designNamesEndpoint = 'http://localhost:4040/api/design/names';
 
 async function addProduct() {
+
     const dn = document.getElementById("designName").value;
     const quantity = parseInt(document.getElementById("quantity").value);
     const currentCost = parseFloat(document.getElementById("currentCost").value);
@@ -42,7 +43,7 @@ async function addProduct() {
             body: JSON.stringify(productData),
         });
 
-        if (response.status >= 200 && response.statusn<300) {
+        if (response.status >= 200 && response.status<300) {
             alert("Product created successfully!");
             document.getElementById("designName").value = "";
             document.getElementById("quantity").value = "";
